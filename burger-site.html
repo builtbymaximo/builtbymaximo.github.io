@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMASH — Burgers & More</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0e0c0a;
+    --off-white: #f5f0e8;
+    --cream: #ede8dc;
+    --orange: #e8540a;
+    --orange-dark: #c44208;
+    --yellow: #f5c842;
+    --gray: #6b6560;
+    --card-bg: #1a1714;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--off-white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(14,12,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(245,200,66,0.1);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 4px;
+    color: var(--yellow);
+  }
+
+  .nav-links {
+    display: flex; gap: 36px; list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--off-white);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 1; color: var(--yellow); }
+
+  .nav-cta {
+    background: var(--orange);
+    color: #fff !important;
+    opacity: 1 !important;
+    padding: 10px 22px;
+    border-radius: 2px;
+    font-weight: 500 !important;
+  }
+
+  .nav-cta:hover { background: var(--orange-dark); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(232,84,10,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 10vw, 140px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero-title span { color: var(--yellow); }
+
+  .hero-desc {
+    font-size: 16px;
+    line-height: 1.8;
+    color: rgba(245,240,232,0.65);
+    max-width: 400px;
+    margin-bottom: 44px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-actions {
+    display: flex; gap: 16px; align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .btn-primary {
+    background: var(--orange);
+    color: #fff;
+    padding: 16px 36px;
+    border: none;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--orange-dark); transform: translateY(-2px); }
+
+  .btn-ghost {
+    color: var(--off-white);
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .btn-ghost:hover { opacity: 1; }
+
+  .arrow { font-size: 18px; }
+
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    opacity: 0;
+    animation: fadeIn 1.2s ease forwards 0.5s;
+  }
+
+  .hero-burger-wrap {
+    width: 420px; height: 420px;
+    background: var(--card-bg);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    border: 1px solid rgba(245,200,66,0.08);
+  }
+
+  .hero-burger-emoji {
+    font-size: 200px;
+    filter: drop-shadow(0 20px 60px rgba(232,84,10,0.4));
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .badge {
+    position: absolute;
+    background: var(--yellow);
+    color: var(--black);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 8px 16px;
+    border-radius: 2px;
+  }
+
+  .badge-1 { top: 40px; right: -20px; transform: rotate(3deg); }
+  .badge-2 { bottom: 60px; left: -20px; transform: rotate(-2deg); }
+
+  /* TICKER */
+  .ticker {
+    background: var(--orange);
+    padding: 14px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 20s linear infinite;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 4px;
+    color: #fff;
+  }
+
+  .ticker-dot { margin: 0 24px; color: rgba(255,255,255,0.4); }
+
+  /* MENU */
+  .section { padding: 100px 48px; }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 80px);
+    line-height: 1;
+    margin-bottom: 60px;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .menu-card {
+    background: var(--card-bg);
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+    cursor: pointer;
+  }
+
+  .menu-card:hover { transform: translateY(-4px); }
+
+  .menu-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .menu-card:hover::after { transform: scaleX(1); }
+
+  .menu-emoji { font-size: 52px; margin-bottom: 20px; display: block; }
+
+  .menu-tag {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+
+  .menu-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .menu-desc {
+    font-size: 14px;
+    color: rgba(245,240,232,0.55);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .menu-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--yellow);
+    letter-spacing: 1px;
+  }
+
+  .menu-price span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--gray);
+    font-weight: 300;
+    margin-left: 4px;
+  }
+
+  /* ABOUT STRIP */
+  .about-strip {
+    padding: 80px 48px;
+    background: var(--card-bg);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    color: var(--yellow);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: rgba(245,240,232,0.55);
+    letter-spacing: 1px;
+  }
+
+  .about-text h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+
+  .about-text p {
+    font-size: 15px;
+    color: rgba(245,240,232,0.6);
+    line-height: 1.9;
+    margin-bottom: 16px;
+  }
+
+  /* HOURS / LOCATION */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .info-card {
+    background: var(--card-bg);
+    padding: 52px 48px;
+  }
+
+  .info-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    margin-bottom: 28px;
+    color: var(--yellow);
+  }
+
+  .hours-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(245,240,232,0.06);
+    font-size: 14px;
+    color: rgba(245,240,232,0.7);
+  }
+
+  .hours-row:last-child { border-bottom: none; }
+  .hours-row strong { color: var(--off-white); font-weight: 500; }
+
+  .location-address {
+    font-size: 22px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    color: var(--off-white);
+  }
+
+  .location-meta {
+    font-size: 14px;
+    color: rgba(245,240,232,0.55);
+    line-height: 1.8;
+  }
+
+  /* CTA BANNER */
+  .cta-banner {
+    padding: 100px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-banner::before {
+    content: 'SMASH';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 300px;
+    color: rgba(245,200,66,0.03);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 10px;
+  }
+
+  .cta-banner h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 7vw, 96px);
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .cta-banner h2 span { color: var(--orange); }
+
+  .cta-banner p {
+    font-size: 16px;
+    color: rgba(245,240,232,0.55);
+    margin-bottom: 40px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(245,240,232,0.08);
+    padding: 40px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 4px;
+    color: var(--yellow);
+  }
+
+  .footer-copy {
+    font-size: 13px;
+    color: var(--gray);
+  }
+
+  .footer-links {
+    display: flex; gap: 28px; list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 12px;
+    color: var(--gray);
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--off-white); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-18px); }
+  }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SMASH</div>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#hours">Hours</a></li>
+    <li><a href="#order" class="nav-cta">Order Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">Fresh • Fast • Smashed</p>
+    <h1 class="hero-title">BURGERS<br>DONE <span>RIGHT.</span></h1>
+    <p class="hero-desc">Hand-pressed smash burgers made with 100% fresh beef, never frozen. Crispy edges, juicy centers, and flavors that hit different.</p>
+    <div class="hero-actions">
+      <a href="#order" class="btn-primary">Order Online</a>
+      <a href="#menu" class="btn-ghost">See Menu <span class="arrow">→</span></a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-burger-wrap">
+      <span class="hero-burger-emoji">🍔</span>
+      <div class="badge badge-1">Fresh Daily</div>
+      <div class="badge badge-2">Est. 2021</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    SMASH BURGERS <span class="ticker-dot">✦</span> CRISPY FRIES <span class="ticker-dot">✦</span> CRAFT SHAKES <span class="ticker-dot">✦</span> FRESH NEVER FROZEN <span class="ticker-dot">✦</span> ORDER ONLINE <span class="ticker-dot">✦</span> SMASH BURGERS <span class="ticker-dot">✦</span> CRISPY FRIES <span class="ticker-dot">✦</span> CRAFT SHAKES <span class="ticker-dot">✦</span> FRESH NEVER FROZEN <span class="ticker-dot">✦</span> ORDER ONLINE <span class="ticker-dot">✦</span>
+  </div>
+</div>
+
+<!-- MENU -->
+<section class="section" id="menu">
+  <p class="section-label reveal">What we serve</p>
+  <h2 class="section-title reveal">The Menu.</h2>
+  <div class="menu-grid">
+    <div class="menu-card reveal">
+      <span class="menu-emoji">🍔</span>
+      <p class="menu-tag">Signature</p>
+      <h3 class="menu-name">The Classic Smash</h3>
+      <p class="menu-desc">Double smash patty, American cheese, house sauce, pickles, diced onion, toasted brioche bun.</p>
+      <div class="menu-price">$10.99 <span>/ each</span></div>
+    </div>
+    <div class="menu-card reveal">
+      <span class="menu-emoji">🔥</span>
+      <p class="menu-tag">Fan Favorite</p>
+      <h3 class="menu-name">The Inferno</h3>
+      <p class="menu-desc">Triple patty, pepper jack, jalapeños, ghost pepper aioli, crispy fried onions, brioche.</p>
+      <div class="menu-price">$14.99 <span>/ each</span></div>
+    </div>
+    <div class="menu-card reveal">
+      <span class="menu-emoji">🧀</span>
+      <p class="menu-tag">Bestseller</p>
+      <h3 class="menu-name">The Meltdown</h3>
+      <p class="menu-desc">Double patty, four-cheese blend, caramelized onions, truffle aioli, toasted potato bun.</p>
+      <div class="menu-price">$13.49 <span>/ each</span></div>
+    </div>
+    <div class="menu-card reveal">
+      <span class="menu-emoji">🍟</span>
+      <p class="menu-tag">Sides</p>
+      <h3 class="menu-name">Smash Fries</h3>
+      <p class="menu-desc">Crispy skin-on fries tossed in smash seasoning, served with house dipping sauce.</p>
+      <div class="menu-price">$4.99 <span>/ regular</span></div>
+    </div>
+    <div class="menu-card reveal">
+      <span class="menu-emoji">🥤</span>
+      <p class="menu-tag">Drinks</p>
+      <h3 class="menu-name">Craft Shakes</h3>
+      <p class="menu-desc">Hand-spun thick shakes in vanilla bean, chocolate fudge, strawberry, or seasonal specials.</p>
+      <div class="menu-price">$6.99 <span>/ each</span></div>
+    </div>
+    <div class="menu-card reveal">
+      <span class="menu-emoji">🌿</span>
+      <p class="menu-tag">Plant-Based</p>
+      <h3 class="menu-name">The Garden Smash</h3>
+      <p class="menu-desc">Beyond Meat smash patty, vegan cheese, avocado, sprouts, chipotle mayo, whole grain bun.</p>
+      <div class="menu-price">$13.99 <span>/ each</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div class="about-strip" id="about">
+  <div class="about-stats">
+    <div class="reveal">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">Fresh beef, never frozen</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-number">3</div>
+      <div class="stat-label">Locations across the city</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-number">50K+</div>
+      <div class="stat-label">Burgers served monthly</div>
+    </div>
+    <div class="reveal">
+      <div class="stat-number">4.9★</div>
+      <div class="stat-label">Average customer rating</div>
+    </div>
+  </div>
+  <div class="about-text reveal">
+    <h2>Burgers Built Different.</h2>
+    <p>SMASH started in 2021 with one griddle, one recipe, and one obsession — making the best smash burger in the city. No shortcuts. No freezers. Just fresh beef, real ingredients, and a whole lot of heat.</p>
+    <p>Every patty is hand-balled and pressed to order. That's the smash difference — a crispy lacey crust on the outside, juicy and tender on the inside. Once you taste it, there's no going back.</p>
+  </div>
+</div>
+
+<!-- HOURS / LOCATION -->
+<section class="section" id="hours">
+  <p class="section-label reveal">Find us</p>
+  <h2 class="section-title reveal">Hours & Location.</h2>
+  <div class="info-grid">
+    <div class="info-card reveal">
+      <h3>Hours</h3>
+      <div class="hours-row"><strong>Mon – Thu</strong><span>11am – 10pm</span></div>
+      <div class="hours-row"><strong>Friday</strong><span>11am – 11pm</span></div>
+      <div class="hours-row"><strong>Saturday</strong><span>10am – 11pm</span></div>
+      <div class="hours-row"><strong>Sunday</strong><span>10am – 9pm</span></div>
+      <div class="hours-row"><strong>Holidays</strong><span>Check our socials</span></div>
+    </div>
+    <div class="info-card reveal">
+      <h3>Location</h3>
+      <div class="location-address">
+        412 West Market Street<br>
+        Downtown District<br>
+        Your City, ST 00000
+      </div>
+      <div class="location-meta">
+        📞 (555) 820-1234<br>
+        📧 hello@smashburgers.com<br><br>
+        Free parking available in the adjacent lot.<br>
+        Walk-ins welcome. Online ordering available.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner" id="order">
+  <h2 class="reveal">HUNGRY? <span>ORDER NOW.</span></h2>
+  <p class="reveal">Skip the line. Get your smash delivered hot to your door.</p>
+  <a href="#" class="btn-primary reveal">Order Online →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">SMASH</div>
+  <ul class="footer-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#hours">Hours</a></li>
+    <li><a href="#">Instagram</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 SMASH Burgers. All rights reserved.</div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

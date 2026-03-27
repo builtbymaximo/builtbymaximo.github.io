@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuiltByMaximo — Web Design for Small Businesses</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0e0c0a;
+    --off-white: #f5f0e8;
+    --cream: #ede8dc;
+    --orange: #e8540a;
+    --orange-dark: #c44208;
+    --yellow: #f5c842;
+    --gray: #6b6560;
+    --card-bg: #1a1714;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--off-white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(14,12,10,0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(245,200,66,0.08);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 3px;
+    color: var(--yellow);
+  }
+
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+
+  .nav-links a {
+    color: var(--off-white);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 1; }
+
+  .nav-cta {
+    background: var(--orange);
+    color: #fff !important;
+    opacity: 1 !important;
+    padding: 10px 22px;
+    border-radius: 2px;
+    font-weight: 500 !important;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 140px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -300px;
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(232,84,10,0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 11vw, 160px);
+    line-height: 0.88;
+    letter-spacing: 2px;
+    margin-bottom: 36px;
+    max-width: 900px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero-title span { color: var(--yellow); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: rgba(245,240,232,0.6);
+    line-height: 1.8;
+    max-width: 520px;
+    margin-bottom: 52px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-actions {
+    display: flex; gap: 16px; align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .btn-primary {
+    background: var(--orange);
+    color: #fff;
+    padding: 16px 36px;
+    border: none;
+    border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    text-decoration: none;
+  }
+
+  .btn-primary:hover { background: var(--orange-dark); transform: translateY(-2px); }
+
+  .btn-outline {
+    border: 1px solid rgba(245,240,232,0.2);
+    color: var(--off-white);
+    padding: 16px 36px;
+    border-radius: 2px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+
+  .btn-outline:hover { border-color: rgba(245,240,232,0.6); }
+
+  /* TICKER */
+  .ticker {
+    background: var(--card-bg);
+    border-top: 1px solid rgba(245,200,66,0.08);
+    border-bottom: 1px solid rgba(245,200,66,0.08);
+    padding: 14px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 25s linear infinite;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: rgba(245,240,232,0.4);
+  }
+
+  .ticker-dot { margin: 0 20px; color: var(--orange); }
+
+  /* SECTIONS */
+  .section { padding: 100px 48px; }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(44px, 5vw, 72px);
+    line-height: 1;
+    margin-bottom: 56px;
+  }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--card-bg);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+
+  .service-card:hover { transform: translateY(-4px); }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--yellow);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .service-card:hover::after { transform: scaleX(1); }
+
+  .service-icon { font-size: 36px; margin-bottom: 20px; display: block; }
+
+  .service-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    color: rgba(245,240,232,0.55);
+    line-height: 1.8;
+    margin-bottom: 24px;
+  }
+
+  .service-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--yellow);
+  }
+
+  .service-price span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--gray);
+    font-weight: 300;
+  }
+
+  /* PORTFOLIO */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+  }
+
+  .portfolio-card {
+    background: var(--card-bg);
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s;
+    text-decoration: none;
+    display: block;
+  }
+
+  .portfolio-card:hover { transform: translateY(-4px); }
+
+  .portfolio-tag {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+
+  .portfolio-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: var(--off-white);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+
+  .portfolio-desc {
+    font-size: 14px;
+    color: rgba(245,240,232,0.5);
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+
+  .portfolio-link {
+    font-size: 13px;
+    color: var(--yellow);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .portfolio-preview {
+    margin-top: 28px;
+    background: rgba(245,240,232,0.04);
+    border: 1px solid rgba(245,240,232,0.06);
+    border-radius: 8px;
+    padding: 20px;
+    font-size: 13px;
+    color: rgba(245,240,232,0.3);
+    font-family: monospace;
+    line-height: 1.6;
+  }
+
+  .portfolio-coming {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    border: 1px dashed rgba(245,240,232,0.1);
+    border-radius: 8px;
+    margin-top: 28px;
+  }
+
+  .coming-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 4px;
+    color: rgba(245,240,232,0.15);
+  }
+
+  /* PROCESS */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .process-card {
+    background: var(--card-bg);
+    padding: 36px;
+  }
+
+  .process-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: rgba(245,200,66,0.15);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .process-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: var(--off-white);
+  }
+
+  .process-desc {
+    font-size: 13px;
+    color: rgba(245,240,232,0.5);
+    line-height: 1.8;
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 120px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: 'MAXIMO';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 280px;
+    color: rgba(245,200,66,0.025);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 10px;
+  }
+
+  .cta-section h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .cta-section h2 span { color: var(--orange); }
+
+  .cta-section p {
+    font-size: 16px;
+    color: rgba(245,240,232,0.5);
+    margin-bottom: 44px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(245,240,232,0.06);
+    padding: 36px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--yellow);
+  }
+
+  .footer-copy { font-size: 13px; color: var(--gray); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">BuiltByMaximo</div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Web Design for Small Businesses</p>
+  <h1 class="hero-title">YOUR BUSINESS<br>DESERVES A<br><span>GREAT WEBSITE.</span></h1>
+  <p class="hero-sub">I build clean, modern websites that help small businesses look professional, attract customers, and grow online. Fast turnaround. Affordable pricing.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Get a Free Quote</a>
+    <a href="#portfolio" class="btn-outline">See My Work</a>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    WEB DESIGN <span class="ticker-dot">✦</span> LANDING PAGES <span class="ticker-dot">✦</span> RESTAURANT SITES <span class="ticker-dot">✦</span> SMALL BUSINESS <span class="ticker-dot">✦</span> FAST DELIVERY <span class="ticker-dot">✦</span> AFFORDABLE PRICING <span class="ticker-dot">✦</span> WEB DESIGN <span class="ticker-dot">✦</span> LANDING PAGES <span class="ticker-dot">✦</span> RESTAURANT SITES <span class="ticker-dot">✦</span> SMALL BUSINESS <span class="ticker-dot">✦</span> FAST DELIVERY <span class="ticker-dot">✦</span> AFFORDABLE PRICING <span class="ticker-dot">✦</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <p class="section-label reveal">What I offer</p>
+  <h2 class="section-title reveal">Services & Pricing.</h2>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="service-icon">⚡</span>
+      <h3 class="service-name">Starter Site</h3>
+      <p class="service-desc">Perfect for businesses that just need a clean, professional online presence. One page, fully mobile-friendly, delivered in 24 hours.</p>
+      <div class="service-price">$50 <span>/ one-time</span></div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">🚀</span>
+      <h3 class="service-name">Business Site</h3>
+      <p class="service-desc">Multi-page website with services, about, contact, and portfolio sections. Includes basic SEO setup. Delivered in 2–3 days.</p>
+      <div class="service-price">$100 <span>/ one-time</span></div>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">👑</span>
+      <h3 class="service-name">Premium Site</h3>
+      <p class="service-desc">Full custom design, animations, contact forms, Google Maps integration, and ongoing support for 30 days. Delivered in 3–5 days.</p>
+      <div class="service-price">$200 <span>/ one-time</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="section" id="portfolio">
+  <p class="section-label reveal">Recent work</p>
+  <h2 class="section-title reveal">Portfolio.</h2>
+  <div class="portfolio-grid">
+    <a href="burger-site.html" class="portfolio-card reveal" target="_blank">
+      <p class="portfolio-tag">Restaurant / Food & Drink</p>
+      <h3 class="portfolio-name">SMASH Burgers</h3>
+      <p class="portfolio-desc">A modern fast-casual burger restaurant website with animated hero, full menu, hours, and online ordering CTA.</p>
+      <div class="portfolio-link">View live site →</div>
+      <div class="portfolio-preview">
+        &lt;hero&gt; Animated landing section<br>
+        &lt;menu&gt; 6-item grid with hover effects<br>
+        &lt;hours&gt; Location & contact info<br>
+        &lt;cta&gt; Online order banner
+      </div>
+    </a>
+    <div class="portfolio-card reveal">
+      <p class="portfolio-tag">Coming Soon</p>
+      <h3 class="portfolio-name">More Projects</h3>
+      <p class="portfolio-desc">Currently taking on new clients. Your business could be featured here next.</p>
+      <div class="portfolio-coming">
+        <span class="coming-text">YOUR SITE HERE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section" id="process">
+  <p class="section-label reveal">How it works</p>
+  <h2 class="section-title reveal">The Process.</h2>
+  <div class="process-grid">
+    <div class="process-card reveal">
+      <div class="process-num">01</div>
+      <h3 class="process-title">Tell me about your business</h3>
+      <p class="process-desc">Fill out a short form about your business, what you need, and your timeline. Free, no commitment.</p>
+    </div>
+    <div class="process-card reveal">
+      <div class="process-num">02</div>
+      <h3 class="process-title">Get a custom quote</h3>
+      <p class="process-desc">I'll send you a clear quote within 24 hours. No hidden fees, no surprises. You approve before I start.</p>
+    </div>
+    <div class="process-card reveal">
+      <div class="process-num">03</div>
+      <h3 class="process-title">I build your site</h3>
+      <p class="process-desc">I get to work and keep you updated. You'll see a preview before anything goes live.</p>
+    </div>
+    <div class="process-card reveal">
+      <div class="process-num">04</div>
+      <h3 class="process-title">Launch & done</h3>
+      <p class="process-desc">Once you're happy, your site goes live. I handle everything — you just share the link.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <h2 class="reveal">READY TO GET <span>STARTED?</span></h2>
+  <p class="reveal">Tell me about your business and I'll send you a free quote within 24 hours.</p>
+  <a href="mailto:hello@builtbymaximo.com" class="btn-primary reveal">Email Me →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">BuiltByMaximo</div>
+  <div class="footer-copy">© 2025 BuiltByMaximo. All rights reserved.</div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
