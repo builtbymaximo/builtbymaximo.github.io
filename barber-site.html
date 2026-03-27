@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blade & Co. — Premium Barbershop</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #fafaf8;
+    --black: #111110;
+    --gray: #6b6b69;
+    --light: #f0ede8;
+    --accent: #c9a96e;
+    --border: rgba(17,17,16,0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 60px;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--black);
+  }
+
+  .nav-links { display: flex; gap: 40px; list-style: none; align-items: center; }
+
+  .nav-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--black); }
+
+  .nav-book {
+    background: var(--black) !important;
+    color: var(--white) !important;
+    padding: 10px 24px;
+    border-radius: 1px;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px;
+    border-right: 1px solid var(--border);
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 7vw, 96px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--gray);
+    max-width: 380px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-actions {
+    display: flex; gap: 16px; align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .btn-primary {
+    background: var(--black);
+    color: var(--white);
+    padding: 14px 32px;
+    border: none;
+    border-radius: 1px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: #333; }
+
+  .btn-ghost {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--black); }
+
+  .hero-right {
+    background: var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-image-placeholder {
+    text-align: center;
+  }
+
+  .hero-scissors {
+    font-size: 120px;
+    display: block;
+    margin-bottom: 24px;
+    animation: float 5s ease-in-out infinite;
+  }
+
+  .hero-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--gray);
+    letter-spacing: 2px;
+  }
+
+  /* SERVICES */
+  .section { padding: 100px 60px; }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 28px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300;
+    line-height: 1.1;
+  }
+
+  .services-list { display: flex; flex-direction: column; gap: 0; }
+
+  .service-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .service-row:hover { padding-left: 12px; }
+
+  .service-row-left { display: flex; align-items: center; gap: 24px; }
+
+  .service-num {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    min-width: 24px;
+  }
+
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+  }
+
+  .service-desc {
+    font-size: 13px;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+
+  .service-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--black);
+  }
+
+  /* ABOUT */
+  .about-section {
+    background: var(--black);
+    color: var(--white);
+    padding: 100px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 5vw, 68px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 32px;
+  }
+
+  .about-title span { color: var(--accent); }
+
+  .about-text {
+    font-size: 15px;
+    line-height: 1.9;
+    color: rgba(250,250,248,0.6);
+    margin-bottom: 16px;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: rgba(250,250,248,0.5);
+    letter-spacing: 1px;
+  }
+
+  /* HOURS */
+  .hours-section {
+    padding: 100px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    border-top: 1px solid var(--border);
+  }
+
+  .hours-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    margin-bottom: 40px;
+  }
+
+  .hours-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--gray);
+  }
+
+  .hours-row strong { color: var(--black); font-weight: 400; }
+
+  .location-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    margin-bottom: 40px;
+  }
+
+  .location-address {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    color: var(--black);
+  }
+
+  .location-meta {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 2;
+  }
+
+  /* BOOK */
+  .book-section {
+    background: var(--light);
+    padding: 100px 60px;
+    text-align: center;
+  }
+
+  .book-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 6vw, 80px);
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .book-sub {
+    font-size: 15px;
+    color: var(--gray);
+    margin-bottom: 44px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .footer-copy { font-size: 12px; color: var(--gray); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(5deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Blade & Co.</div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#hours">Hours</a></li>
+    <li><a href="#book" class="nav-book">Book Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Est. 2018 — Downtown</p>
+    <h1 class="hero-title">The Art of<br>a Great Cut.</h1>
+    <p class="hero-desc">Precision cuts, clean fades, and classic shaves — delivered by craftsmen who take pride in every detail. Walk out looking sharp, every time.</p>
+    <div class="hero-actions">
+      <a href="#book" class="btn-primary">Book Appointment</a>
+      <a href="#services" class="btn-ghost">View Services</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-placeholder">
+      <span class="hero-scissors">✂️</span>
+      <p class="hero-tag">Premium Grooming</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="section-header">
+    <div>
+      <p class="section-label">What we offer</p>
+      <h2 class="section-title">Services &<br>Pricing</h2>
+    </div>
+  </div>
+  <div class="services-list">
+    <div class="service-row">
+      <div class="service-row-left">
+        <span class="service-num">01</span>
+        <div>
+          <div class="service-name">Classic Haircut</div>
+          <div class="service-desc">Scissor or clipper cut, styled to perfection</div>
+        </div>
+      </div>
+      <div class="service-price">$35</div>
+    </div>
+    <div class="service-row">
+      <div class="service-row-left">
+        <span class="service-num">02</span>
+        <div>
+          <div class="service-name">Fade & Taper</div>
+          <div class="service-desc">Skin fade, low, mid, or high — your choice</div>
+        </div>
+      </div>
+      <div class="service-price">$40</div>
+    </div>
+    <div class="service-row">
+      <div class="service-row-left">
+        <span class="service-num">03</span>
+        <div>
+          <div class="service-name">Beard Trim & Shape</div>
+          <div class="service-desc">Clean lines, shaped to suit your face</div>
+        </div>
+      </div>
+      <div class="service-price">$25</div>
+    </div>
+    <div class="service-row">
+      <div class="service-row-left">
+        <span class="service-num">04</span>
+        <div>
+          <div class="service-name">Hot Towel Shave</div>
+          <div class="service-desc">Traditional straight razor shave, hot towel finish</div>
+        </div>
+      </div>
+      <div class="service-price">$45</div>
+    </div>
+    <div class="service-row">
+      <div class="service-row-left">
+        <span class="service-num">05</span>
+        <div>
+          <div class="service-name">Cut & Beard Combo</div>
+          <div class="service-desc">Full haircut plus beard trim and shape</div>
+        </div>
+      </div>
+      <div class="service-price">$55</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div class="about-section" id="about">
+  <div>
+    <h2 class="about-title">Craft over<br><span>everything.</span></h2>
+    <p class="about-text">Blade & Co. was founded on one belief — that a great haircut is more than just a trim. It's a craft. Every client who sits in our chair gets our full attention, our best work, and a cut that lasts.</p>
+    <p class="about-text">Our barbers bring years of experience and a passion for the trade. No rushing, no shortcuts. Just clean, confident cuts every time.</p>
+  </div>
+  <div class="about-stats">
+    <div>
+      <div class="stat-num">6+</div>
+      <div class="stat-label">Years in business</div>
+    </div>
+    <div>
+      <div class="stat-num">3K+</div>
+      <div class="stat-label">Happy clients</div>
+    </div>
+    <div>
+      <div class="stat-num">5★</div>
+      <div class="stat-label">Average rating</div>
+    </div>
+    <div>
+      <div class="stat-num">4</div>
+      <div class="stat-label">Expert barbers</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOURS & LOCATION -->
+<section class="hours-section" id="hours">
+  <div>
+    <h3 class="hours-title">Hours</h3>
+    <div class="hours-row"><strong>Monday – Friday</strong><span>9am – 8pm</span></div>
+    <div class="hours-row"><strong>Saturday</strong><span>8am – 7pm</span></div>
+    <div class="hours-row"><strong>Sunday</strong><span>10am – 5pm</span></div>
+    <div class="hours-row"><strong>Walk-ins</strong><span>Always welcome</span></div>
+  </div>
+  <div>
+    <h3 class="location-title">Location</h3>
+    <div class="location-address">
+      218 Main Street<br>
+      Downtown District<br>
+      Your City, ST 00000
+    </div>
+    <div class="location-meta">
+      📞 (555) 412-8800<br>
+      📧 hello@bladeandco.com<br><br>
+      Street parking available.<br>
+      Walk-ins welcome, appointments preferred.
+    </div>
+  </div>
+</section>
+
+<!-- BOOK -->
+<section class="book-section" id="book">
+  <h2 class="book-title">Ready to look sharp?</h2>
+  <p class="book-sub">Book your appointment online — it takes less than a minute.</p>
+  <a href="#" class="btn-primary">Book Appointment →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Blade & Co.</div>
+  <div class="footer-copy">© 2025 Blade & Co. Barbershop. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

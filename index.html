@@ -512,21 +512,13 @@
       <h3 class="portfolio-name">SMASH Burgers</h3>
       <p class="portfolio-desc">A modern fast-casual burger restaurant website with animated hero, full menu, hours, and online ordering CTA.</p>
       <div class="portfolio-link">View live site →</div>
-      <div class="portfolio-preview">
-        &lt;hero&gt; Animated landing section<br>
-        &lt;menu&gt; 6-item grid with hover effects<br>
-        &lt;hours&gt; Location & contact info<br>
-        &lt;cta&gt; Online order banner
-      </div>
     </a>
-    <div class="portfolio-card reveal">
-      <p class="portfolio-tag">Coming Soon</p>
-      <h3 class="portfolio-name">More Projects</h3>
-      <p class="portfolio-desc">Currently taking on new clients. Your business could be featured here next.</p>
-      <div class="portfolio-coming">
-        <span class="coming-text">YOUR SITE HERE</span>
-      </div>
-    </div>
+    <a href="barber-site.html" class="portfolio-card reveal" target="_blank">
+      <p class="portfolio-tag">Barbershop / Personal Care</p>
+      <h3 class="portfolio-name">Blade & Co.</h3>
+      <p class="portfolio-desc">A clean, minimal premium barbershop website with services pricing, about section, hours, and booking CTA.</p>
+      <div class="portfolio-link">View live site →</div>
+    </a>
   </div>
 </section>
 
@@ -562,7 +554,27 @@
 <section class="cta-section" id="contact">
   <h2 class="reveal">READY TO GET <span>STARTED?</span></h2>
   <p class="reveal">Tell me about your business and I'll send you a free quote within 24 hours.</p>
-  <a href="/cdn-cgi/l/email-protection#ddb5b8b1b1b29dbfa8b4b1a9bfa4b0bca5b4b0b2f3beb2b0" class="btn-primary reveal">Email Me →</a>
+  <form action="https://formspree.io/f/xreoepol" method="POST" style="max-width:520px;margin:0 auto;text-align:left;" class="reveal">
+    <div style="margin-bottom:16px;">
+      <input type="text" name="name" placeholder="Your name" required style="width:100%;padding:14px 18px;background:#1a1714;border:1px solid rgba(245,240,232,0.15);border-radius:2px;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;">
+    </div>
+    <div style="margin-bottom:16px;">
+      <input type="email" name="email" placeholder="Your email" required style="width:100%;padding:14px 18px;background:#1a1714;border:1px solid rgba(245,240,232,0.15);border-radius:2px;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;">
+    </div>
+    <div style="margin-bottom:16px;">
+      <select name="package" style="width:100%;padding:14px 18px;background:#1a1714;border:1px solid rgba(245,240,232,0.15);border-radius:2px;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;">
+        <option value="">Which package are you interested in?</option>
+        <option value="starter">Starter Site — $80</option>
+        <option value="business">Business Site — $150</option>
+        <option value="premium">Premium Site — $280</option>
+        <option value="unsure">Not sure yet</option>
+      </select>
+    </div>
+    <div style="margin-bottom:24px;">
+      <textarea name="message" placeholder="Tell me about your business..." rows="4" required style="width:100%;padding:14px 18px;background:#1a1714;border:1px solid rgba(245,240,232,0.15);border-radius:2px;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;resize:vertical;"></textarea>
+    </div>
+    <button type="submit" class="btn-primary" style="width:100%;text-align:center;border:none;cursor:pointer;">Send Message →</button>
+  </form>
 </section>
 
 <!-- FOOTER -->
